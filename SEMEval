@@ -1,0 +1,62 @@
+
+Sub SEMEval()
+
+    Dim formulaArr() As String
+    Dim myArr() As String
+    Dim tmpStr() As String
+    Dim tmpStr2() As String
+    Dim xValues1 As String
+    Dim xValues2 As String
+    Dim Values1 As String
+    Dim Values2 As String
+    Dim formulaOffset As Integer
+    Dim SeriesCounter As Integer
+    Dim ws As Worksheet
+     
+    formulaArr = Split(ActiveChart.SeriesCollection(1).formula, ",")
+    formulaOffset = UBound(formulaArr) - 3
+    tmpStr = Split(formulaArr(1 + formulaOffset), "!")
+    myArr = Split(tmpStr(1), ":")
+    tmpStr = Split(myArr(0), "$")
+    tmpStr2 = Split(myArr(1), "$")
+    xValues1 = tmpStr(1)
+    xValues2 = tmpStr2(1)
+    
+    tmpStr = Split(formulaArr(2 + formulaOffset), "!")
+    myArr = Split(tmpStr(1), ":")
+    tmpStr = Split(myArr(0), "$")
+    tmpStr2 = Split(myArr(1), "$")
+    Values1 = tmpStr(1)
+    Values2 = tmpStr2(1)
+    
+        'Essentially, above you store all the variables from All JIP to create the formulas.
+        'Below, it rotates from 1 to 11 through all the SEM Name Page, creates a depth, assigns said formula to depth, and moves along.
+        'The Row and Name Row are all tied to the Depth Number, since they all increment up by one every for.
+        'Depth num starts at 1
+        For DepthNum = 1 To 11
+            Row = DepthNum + 8
+            NameRow = DepthNum + 2
+            Name = CStr(Sheets("SEM Name").Range("B" + CStr(DepthNum)))
+            If (GetSeriesIndexFromName("SEM Name(Depth " + CStr(DepthNum) + ")") = -1) Then
+                ActiveChart.SeriesCollection.NewSeries
+                SeriesCounter = ActiveChart.SeriesCollection.Count
+            Else
+                SeriesCounter = GetSeriesIndexFromName("SEM Name(Depth " + CStr(DepthNum) + ")")
+            End If
+                ActiveChart.SeriesCollection(SeriesCounter).XValues = "='SEM'!$" + xValues1 + "$" + CStr(Row) + ":$" + xValues2 + "$" + CStr(Row) 'Row from 9 (DepthNum + 8)
+                ActiveChart.SeriesCollection(SeriesCounter).Values = "='SEM'!$" + Values1 + "$" + CStr(Row) + ":$" + Values2 + "$" + CStr(Row)
+                ActiveChart.SeriesCollection(SeriesCounter).Name = "='SEM NAME'!$B$" + CStr(NameRow) 'Name Row from 3 (DepthNum + 2)
+                ActiveChart.SeriesCollection(SeriesCounter).Select
+                    Selection.MarkerStyle = Sheets("SEM Name").Range("H" + CStr(NameRow)).Value
+                    Selection.MarkerSize = Sheets("SEM Name").Range("G" + CStr(NameRow)).Value
+                    Selection.MarkerBackgroundColor = RGB(Sheets("SEM Name").Range("D" + CStr(NameRow)).Value, Sheets("SEM Name").Range("E" + CStr(NameRow)).Value, Sheets("SEM Name").Range("F" + CStr(NameRow)).Value)
+                    Selection.MarkerForegroundColor = RGB(Sheets("SEM Name").Range("J" + CStr(NameRow)).Value, Sheets("SEM Name").Range("K" + CStr(NameRow)).Value, Sheets("SEM Name").Range("L" + CStr(NameRow)).Value)
+                    Selection.Format.Line.Weight = Sheets("SEM Name").Range("M" + CStr(NameRow)).Value
+                    Selection.Border.LineStyle = xlLineStyleNone
+        Next
+
+
+
+
+
+End Sub

@@ -1,0 +1,177 @@
+Dim TextUp As Long
+Dim TextLeft As Long
+Dim TextHeight As Long
+Dim TextWidth As Long
+Dim opsU As Long
+Dim opsL As Long
+Dim opsH As Long
+Dim opsW As Long
+Dim linT As Long
+Dim linL As Long
+Dim polW As Long
+Dim polH As Long
+Dim polL As Long
+Dim polT As Long
+Dim selObj As Object
+
+
+Sub Store()
+    
+    Set selObj = Selection
+    'MsgBox (TypeName(selObj))
+        
+        If TypeName(selObj) = "ChartArea" Then
+                Call ImATextBox
+                Exit Sub
+        ElseIf TypeName(selObj) = "PlotArea" Then
+                Call ImAPlot
+                Exit Sub
+        ElseIf TypeName(selObj) = "DataLabel" Then
+                Call ImATrendy
+                Exit Sub
+        ElseIf TypeName(selObj) = "ChartTitle" Then
+                Call ImATrendy
+                Exit Sub
+        ElseIf TypeName(selObj) = "AxisTitle" Then
+                Call ImATrendy
+                Exit Sub
+        ElseIf TypeName(selObj) = "Legend" Then
+                Call ImATextBox
+                Exit Sub
+        ElseIf TypeName(selObj) = "TextBox" Then
+                Call ImATextBox
+                Exit Sub
+        ElseIf TypeName(selObj) = "Rectangle" Then
+                Call ImATextBox
+        ElseIf TypeName(selObj) = "Line" Then
+                Call ImATextBox
+                Exit Sub
+        Else: Call ImATextBox
+    End If
+    
+End Sub
+
+Sub Apply()
+    
+    Set selObj = Selection
+    'MsgBox (TypeName(selObj))
+        
+        If TypeName(selObj) = "ChartArea" Then
+                Call ImAnArrangedTextBox
+                Exit Sub
+        ElseIf TypeName(selObj) = "PlotArea" Then
+                Call EndSuspense
+                Exit Sub
+        ElseIf TypeName(selObj) = "DataLabel" Then
+                Call ImATrendyToo
+                Exit Sub
+        ElseIf TypeName(selObj) = "ChartTitle" Then
+                Call ImATrendyToo
+                Exit Sub
+        ElseIf TypeName(selObj) = "AxisTitle" Then
+                Call ImATrendyToo
+                Exit Sub
+        ElseIf TypeName(selObj) = "Legend" Then
+                Call ImAnArrangedTextBox
+                Exit Sub
+        ElseIf TypeName(selObj) = "TextBox" Then
+                Call ImAnArrangedTextBox
+                Exit Sub
+        ElseIf TypeName(selObj) = "Rectangle" Then
+                Call ImAnArrangedTextBox
+                Exit Sub
+        ElseIf TypeName(selObj) = "Line" Then
+                Call ImAnArrangedTextBox
+                Exit Sub
+        Else: ImAnArrangedTextBox
+    End If
+    
+End Sub
+
+Private Sub ImAPlot()
+    With Selection
+'        TextUp = .Top
+'        TextLeft = .Left
+'        TextHeight = .Height
+'        TextWidth = .Width
+        polH = .InsideHeight
+        polW = .InsideWidth
+        polT = .InsideTop
+        polL = .InsideLeft
+    End With
+End Sub
+Private Sub EndSuspense()
+    With Selection
+'        .Top = TextUp
+'        .Left = TextLeft
+'        .Height = TextHeight
+'        .Width = TextWidth
+        .InsideHeight = polH
+        .InsideWidth = polW
+        .InsideTop = polT
+        .InsideLeft = polL
+    End With
+End Sub
+
+Private Sub ImATrendy()
+
+    With Selection
+        linT = .Top
+        linL = .Left
+    End With
+    
+End Sub
+Private Sub ImATrendyToo()
+
+    With Selection
+        .Top = linT
+        .Left = linL
+    End With
+    
+End Sub
+Private Sub TELLME()
+    MsgBox (TextUp)
+    MsgBox (TextLeft)
+    MsgBox (TextHeight)
+    MsgBox (TextWidth)
+    
+End Sub
+
+Private Sub ImATextBox()
+
+    With Selection
+        TextUp = .Top
+        TextLeft = .Left
+        TextHeight = .Height
+        TextWidth = .Width
+    End With
+
+End Sub
+
+Private Sub ImAnArrangedTextBox()
+
+    With Selection
+        opsU = .Top
+        opsL = .Left
+        opsH = .Height
+        opsW = .Width
+    End With
+
+    With Selection
+        .Top = TextUp
+        .Left = TextLeft
+        .Height = TextHeight
+        .Width = TextWidth
+    End With
+
+End Sub
+
+Sub Oops()
+
+    With Selection
+        .Top = opsU
+        .Left = opsL
+        .Height = opsH
+        .Width = opsW
+    End With
+End Sub

@@ -1,0 +1,113 @@
+
+
+Sub JIPTop()
+
+    'bunch of variables, stolen from main macro, most used for breaking down the formulas
+  
+    Dim formulaArr() As String
+    Dim myArr() As String
+    Dim tmpStr() As String
+    Dim tmpStr2() As String
+    Dim xValues1 As String
+    Dim xValues2 As String
+    Dim Values1 As String
+    Dim Values2 As String
+    Dim formulaOffset As Integer
+    Dim SeriesCounter As Integer
+    Dim ws As Worksheet
+    
+    'needs Extracted to be second
+    formulaArr = Split(ActiveChart.SeriesCollection(1).formula, ",")
+    formulaOffset = UBound(formulaArr) - 3
+    tmpStr = Split(formulaArr(1 + formulaOffset), "!")
+    myArr = Split(tmpStr(1), ":")
+    tmpStr = Split(myArr(0), "$")
+    tmpStr2 = Split(myArr(1), "$")
+    xValues1 = tmpStr(1)
+    xValues2 = tmpStr2(2)
+    
+    tmpStr = Split(formulaArr(2 + formulaOffset), "!")
+    myArr = Split(tmpStr(1), ":")
+    tmpStr = Split(myArr(0), "$")
+    tmpStr2 = Split(myArr(1), "$")
+    Values1 = tmpStr(1)
+    Values2 = tmpStr2(2)
+
+    ActiveChart.SeriesCollection(1).Select
+    ActiveChart.SeriesCollection(1).XValues = "='Data'!$" + xValues1 + "$12:$" + xValues1 + "$" + xValues2
+    ActiveChart.SeriesCollection(1).Values = "='Data'!$" + Values1 + "$12:$" + Values1 + "$" + xValues2
+
+
+        
+
+End Sub
+
+Sub Extracted()
+    
+    'bunch of variables, stolen from main macro, most used for breaking down the formulas
+    
+    Dim formulaArr() As String
+    Dim myArr() As String
+    Dim tmpStr() As String
+    Dim tmpStr2() As String
+    Dim xValues1 As String
+    Dim xValues2 As String
+    Dim Values1 As String
+    Dim Values2 As String
+    Dim formulaOffset As Integer
+    Dim SeriesCounter As Integer
+    Dim ws As Worksheet
+    
+    'needs Extracted to be second
+    formulaArr = Split(ActiveChart.SeriesCollection(2).formula, ",")
+    formulaOffset = UBound(formulaArr) - 3
+    tmpStr = Split(formulaArr(1 + formulaOffset), "!")
+    myArr = Split(tmpStr(1), ":")
+    tmpStr = Split(myArr(0), "$")
+    tmpStr2 = Split(myArr(1), "$")
+    xValues1 = tmpStr(1)
+    xValues2 = tmpStr2(1)
+    
+    tmpStr = Split(formulaArr(2 + formulaOffset), "!")
+    myArr = Split(tmpStr(1), ":")
+    tmpStr = Split(myArr(0), "$")
+    tmpStr2 = Split(myArr(1), "$")
+    Values1 = tmpStr(1)
+    Values2 = tmpStr2(1)
+
+
+'   Instead of hardcoding all the series names, I used the change in row to create a variable that would access all the series
+'   names from 3 to 13.  Much easier to read and more compact.
+'   Checks to see if there is extracted data present, then applies the extracted.
+    For x = 3 To 13
+        nopex = x - 2
+        mySheetName = CStr(nopex)
+        If Worksheets(mySheetName).Range("KL" & 9).Value <> "" Then
+            form = Sheets("Other Name").Cells(x, 2).Value
+            ExtractAssign form, mySheetName, xValues1, xValues2, Values1, Values2
+        Else
+        End If
+    Next x
+    
+    
+'On error, exit. usually when there isnt a series with that name present.
+ErrHandle:
+Exit Sub
+
+End Sub
+
+
+Private Sub ExtractAssign(form, nopex, xVal As String, xVal2 As String, Val As String, Val2 As String)
+    'brings all variables together
+    ActiveChart.SeriesCollection(form).Select
+    ActiveChart.SeriesCollection(form).XValues = "='" + nopex + "'!$" + xVal + "$9:$" + xVal2 + "$312"
+    ActiveChart.SeriesCollection(form).Values = "='" + nopex + "'!$" + Val + "$9:$" + Val2 + "$312"
+
+End Sub
+
+
+
+
+
+
+

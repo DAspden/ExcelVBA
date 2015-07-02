@@ -1,0 +1,251 @@
+
+Sub UpdateColors()
+'Basic Update, numbers represent the Column reference (a=1,b=2 etc),
+'the shape code (1 is name page, 2,3,4 are hardcoded to diamond triangle circle)
+'and the other name page row number (CMS is much lower than the rest, which is why its the only one with a 2)
+
+    MultiUpdate 2, 1, 1
+
+'   Km
+    MultiUpdate 5, 1, 1
+
+'   AbsK
+    MultiUpdate 8, 3, 1
+
+'   DGB
+    MultiUpdate 11, 2, 1
+
+'   CMS
+    MultiUpdate 5, 4, 2
+
+'   Youngs
+    MultiUpdate 14, 1, 1
+
+'   Bulk
+    MultiUpdate 17, 2, 1
+
+'   Shear
+    MultiUpdate 20, 3, 1
+
+'   30
+    MultiUpdate 23, 1, 1
+
+'   150
+    MultiUpdate 26, 2, 1
+
+    
+'   Moves to the next sheet after running.  Can turn off.
+    ActiveSheet.Next.Select
+
+End Sub
+
+
+Sub MultiUpdate(columnReference As Integer, shapeT As Integer, z As Integer)
+
+If z = 1 Then
+
+form1 = Sheets("Other Name").Cells(3, columnReference).Value
+form2 = Sheets("Other Name").Cells(4, columnReference).Value
+form3 = Sheets("Other Name").Cells(5, columnReference).Value
+form4 = Sheets("Other Name").Cells(6, columnReference).Value
+form5 = Sheets("Other Name").Cells(7, columnReference).Value
+form6 = Sheets("Other Name").Cells(8, columnReference).Value
+form7 = Sheets("Other Name").Cells(9, columnReference).Value
+form8 = Sheets("Other Name").Cells(10, columnReference).Value
+form9 = Sheets("Other Name").Cells(11, columnReference).Value
+form10 = Sheets("Other Name").Cells(12, columnReference).Value
+form11 = Sheets("Other Name").Cells(13, columnReference).Value
+
+Else
+form1 = Sheets("Other Name").Cells(26, columnReference).Value
+form2 = Sheets("Other Name").Cells(27, columnReference).Value
+form3 = Sheets("Other Name").Cells(28, columnReference).Value
+form4 = Sheets("Other Name").Cells(29, columnReference).Value
+form5 = Sheets("Other Name").Cells(30, columnReference).Value
+form6 = Sheets("Other Name").Cells(31, columnReference).Value
+form7 = Sheets("Other Name").Cells(32, columnReference).Value
+form8 = Sheets("Other Name").Cells(33, columnReference).Value
+form9 = Sheets("Other Name").Cells(34, columnReference).Value
+form10 = Sheets("Other Name").Cells(35, columnReference).Value
+form11 = Sheets("Other Name").Cells(36, columnReference).Value
+End If
+
+RawUpdate (form1), (3), (8), (shapeT)
+RawUpdate (form2), (4), (8), (shapeT)
+RawUpdate (form3), (5), (8), (shapeT)
+RawUpdate (form4), (6), (8), (shapeT)
+RawUpdate (form5), (7), (8), (shapeT)
+RawUpdate (form6), (8), (8), (shapeT)
+RawUpdate (form7), (9), (8), (shapeT)
+RawUpdate (form8), (10), (8), (shapeT)
+RawUpdate (form9), (11), (8), (shapeT)
+RawUpdate (form10), (12), (8), (shapeT)
+RawUpdate (form11), (13), (8), (shapeT)
+
+End Sub
+
+Sub RawUpdate(x As String, y As Integer, z As Integer, t As Integer)
+
+
+On Error GoTo ErrHandle
+If t = 1 Then
+    ActiveChart.SeriesCollection(x).Select
+    Selection.MarkerStyle = Sheets("Name").Cells(y, z).Value
+    Selection.MarkerSize = Sheets("Name").Cells(y, 7).Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Cells(y, 4).Value, Sheets("Name").Cells(y, 5).Value, Sheets("Name").Cells(y, 6).Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Cells(y, 10).Value, Sheets("Name").Cells(y, 11).Value, Sheets("Name").Cells(y, 12).Value)
+    Selection.Format.Line.Weight = Sheets("Name").Cells(y, 13).Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+ElseIf t = 2 Then
+    ActiveChart.SeriesCollection(x).Select
+    Selection.MarkerStyle = 2
+    Selection.MarkerSize = Sheets("Name").Cells(y, 7).Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Cells(y, 4).Value, Sheets("Name").Cells(y, 5).Value, Sheets("Name").Cells(y, 6).Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Cells(y, 10).Value, Sheets("Name").Cells(y, 11).Value, Sheets("Name").Cells(y, 12).Value)
+    Selection.Format.Line.Weight = 1.5
+    'Selection.Format.Line.Weight = Sheets("Name").Cells(y, 13).Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+ElseIf t = 3 Then
+    ActiveChart.SeriesCollection(x).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Cells(y, 7).Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Cells(y, 4).Value, Sheets("Name").Cells(y, 5).Value, Sheets("Name").Cells(y, 6).Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Cells(y, 10).Value, Sheets("Name").Cells(y, 11).Value, Sheets("Name").Cells(y, 12).Value)
+    Selection.Format.Line.Weight = Sheets("Name").Cells(y, 13).Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+ElseIf t = 4 Then
+    ActiveChart.SeriesCollection(x).Select
+    Selection.MarkerStyle = 8
+    Selection.MarkerSize = Sheets("Name").Cells(y, 7).Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Cells(y, 4).Value, Sheets("Name").Cells(y, 5).Value, Sheets("Name").Cells(y, 6).Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Cells(y, 10).Value, Sheets("Name").Cells(y, 11).Value, Sheets("Name").Cells(y, 12).Value)
+    Selection.Format.Line.Weight = Sheets("Name").Cells(y, 13).Value
+    Selection.Border.LineStyle = xlLineStyleNone
+    
+    ElseIf t = 5 Then
+    ActiveChart.SeriesCollection(x).Select
+    Selection.MarkerStyle = 7
+End If
+
+ErrHandle:
+Exit Sub
+
+
+
+End Sub
+
+
+
+Sub Shear()
+
+form1 = Sheets("Other Name").Range("T3").Value
+form2 = Sheets("Other Name").Range("T4").Value
+form3 = Sheets("Other Name").Range("T5").Value
+form4 = Sheets("Other Name").Range("T6").Value
+form5 = Sheets("Other Name").Range("T7").Value
+form6 = Sheets("Other Name").Range("T8").Value
+form7 = Sheets("Other Name").Range("T9").Value
+form8 = Sheets("Other Name").Range("T10").Value
+form9 = Sheets("Other Name").Range("T11").Value
+form10 = Sheets("Other Name").Range("T12").Value
+form11 = Sheets("Other Name").Range("T13").Value
+On Error GoTo ErrHandle
+
+    ActiveChart.SeriesCollection(form1).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Range("G3").Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Range("D3").Value, Sheets("Name").Range("E3").Value, Sheets("Name").Range("F3").Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Range("J3").Value, Sheets("Name").Range("K3").Value, Sheets("Name").Range("L3").Value)
+    Selection.Format.Line.Weight = Sheets("Name").Range("M3").Value
+    Selection.Border.LineStyle = xlLineStyleNone
+   
+    ActiveChart.SeriesCollection(form2).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Range("G4").Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Range("D4").Value, Sheets("Name").Range("E4").Value, Sheets("Name").Range("F4").Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Range("J4").Value, Sheets("Name").Range("K4").Value, Sheets("Name").Range("L4").Value)
+    Selection.Format.Line.Weight = Sheets("Name").Range("M4").Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+    ActiveChart.SeriesCollection(form3).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Range("G5").Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Range("D5").Value, Sheets("Name").Range("E5").Value, Sheets("Name").Range("F5").Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Range("J5").Value, Sheets("Name").Range("K5").Value, Sheets("Name").Range("L5").Value)
+    Selection.Format.Line.Weight = Sheets("Name").Range("M5").Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+    ActiveChart.SeriesCollection(form4).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Range("G6").Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Range("D6").Value, Sheets("Name").Range("E6").Value, Sheets("Name").Range("F6").Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Range("J6").Value, Sheets("Name").Range("K6").Value, Sheets("Name").Range("L6").Value)
+    Selection.Format.Line.Weight = Sheets("Name").Range("M6").Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+    ActiveChart.SeriesCollection(form5).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Range("G7").Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Range("D7").Value, Sheets("Name").Range("E7").Value, Sheets("Name").Range("F7").Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Range("J7").Value, Sheets("Name").Range("K7").Value, Sheets("Name").Range("L7").Value)
+    Selection.Format.Line.Weight = Sheets("Name").Range("M7").Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+    ActiveChart.SeriesCollection(form6).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Range("G8").Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Range("D8").Value, Sheets("Name").Range("E8").Value, Sheets("Name").Range("F8").Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Range("J8").Value, Sheets("Name").Range("K8").Value, Sheets("Name").Range("L8").Value)
+    Selection.Format.Line.Weight = Sheets("Name").Range("M8").Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+    ActiveChart.SeriesCollection(form7).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Range("G9").Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Range("D9").Value, Sheets("Name").Range("E9").Value, Sheets("Name").Range("F9").Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Range("J9").Value, Sheets("Name").Range("K9").Value, Sheets("Name").Range("L9").Value)
+    Selection.Format.Line.Weight = Sheets("Name").Range("M9").Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+    ActiveChart.SeriesCollection(form8).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Range("G10").Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Range("D10").Value, Sheets("Name").Range("E10").Value, Sheets("Name").Range("F10").Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Range("J10").Value, Sheets("Name").Range("K10").Value, Sheets("Name").Range("L10").Value)
+    Selection.Format.Line.Weight = Sheets("Name").Range("M10").Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+    ActiveChart.SeriesCollection(form9).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Range("G11").Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Range("D11").Value, Sheets("Name").Range("E11").Value, Sheets("Name").Range("F11").Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Range("J11").Value, Sheets("Name").Range("K11").Value, Sheets("Name").Range("L11").Value)
+    Selection.Format.Line.Weight = Sheets("Name").Range("M11").Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+    ActiveChart.SeriesCollection(form10).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Range("G12").Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Range("D12").Value, Sheets("Name").Range("E12").Value, Sheets("Name").Range("F12").Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Range("J12").Value, Sheets("Name").Range("K12").Value, Sheets("Name").Range("L12").Value)
+    Selection.Format.Line.Weight = Sheets("Name").Range("M12").Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+    ActiveChart.SeriesCollection(form11).Select
+    Selection.MarkerStyle = 3
+    Selection.MarkerSize = Sheets("Name").Range("G13").Value
+    Selection.MarkerBackgroundColor = RGB(Sheets("Name").Range("D13").Value, Sheets("Name").Range("E13").Value, Sheets("Name").Range("F13").Value)
+    Selection.MarkerForegroundColor = RGB(Sheets("Name").Range("J13").Value, Sheets("Name").Range("K13").Value, Sheets("Name").Range("L13").Value)
+    Selection.Format.Line.Weight = Sheets("Name").Range("M13").Value
+    Selection.Border.LineStyle = xlLineStyleNone
+
+
+ErrHandle:
+Exit Sub
+
+
+End Sub
+

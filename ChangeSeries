@@ -1,0 +1,223 @@
+Sub ReDropMerc(z As Integer)
+
+Dim x As Integer
+Dim formulaCopy
+Dim nameCopy As String
+
+
+    x = ActiveChart.SeriesCollection.Count
+    
+    formulaNumber = x - z
+    
+    formulaCopy = ActiveChart.SeriesCollection(formulaNumber).formula
+    nameCopy = ActiveChart.SeriesCollection(formulaNumber).Name
+    ActiveChart.SeriesCollection.NewSeries
+    
+    x = ActiveChart.SeriesCollection.Count
+    
+    ActiveChart.SeriesCollection(x).formula = formulaCopy
+    ActiveChart.SeriesCollection(x).Name = nameCopy + " 2"
+
+End Sub
+
+Sub CopyBottom()
+
+    ReDropMerc (0)
+
+End Sub
+
+
+
+Sub AddNumbTabs()
+
+    Dim seriesCount As Integer
+
+    Dim originalFormula
+
+    Dim formula
+    Dim myArr() As String
+    Dim tmpStr() As String
+
+    Dim numVal1() As String
+    Dim numVal As String
+
+
+
+
+
+    seriesCount = ActiveChart.SeriesCollection.Count
+    formulaCopy = ActiveChart.SeriesCollection(seriesCount).formula
+
+    formula = ActiveChart.SeriesCollection(seriesCount).formula
+        originalFormula = Split(formula, ",")
+    
+    tmpStr = Split(originalFormula(1), "!")
+
+            numVal1 = Split(tmpStr(0), "'")
+            numVal = numVal1(1)
+
+        
+    startForm = Split(originalFormula(1), "!")
+        startArr = startForm(1)
+    
+    endForm = Split(originalFormula(2), "!")
+        endArr = endForm(1)
+       
+    NumPage = tmpStr(0)
+    
+        If IsNumeric(numVal) Then
+            numVal = CInt(numVal)
+            numVal = numVal + 1
+            
+            ActiveChart.SeriesCollection.NewSeries
+            seriesCount = ActiveChart.SeriesCollection.Count
+            quote = CStr(numVal)
+            NameRow = numVal + 2
+            formulaNew = ",'" + CStr(numVal) + "'!" + startArr + ",'" + CStr(numVal) + "'!" + endArr + "," + CStr(seriesCount) + ")"
+            formulaTotal = "=SERIES(" + Chr(34) + quote + Chr(34) + formulaNew
+            ActiveChart.SeriesCollection(seriesCount).formula = formulaTotal
+            ActiveChart.SeriesCollection(seriesCount).Name = "='NAME'!$B$" + CStr(NameRow)
+            ActiveChart.SeriesCollection(seriesCount).Select
+                Selection.MarkerStyle = Sheets("NAME").Range("H" + CStr(NameRow)).Value
+                Selection.MarkerSize = Sheets("NAME").Range("G" + CStr(NameRow)).Value
+                Selection.MarkerBackgroundColor = RGB(Sheets("NAME").Range("D" + CStr(NameRow)).Value, Sheets("NAME").Range("E" + CStr(NameRow)).Value, Sheets("NAME").Range("F" + CStr(NameRow)).Value)
+                Selection.MarkerForegroundColor = RGB(Sheets("NAME").Range("J" + CStr(NameRow)).Value, Sheets("NAME").Range("K" + CStr(NameRow)).Value, Sheets("NAME").Range("L" + CStr(NameRow)).Value)
+                Selection.Format.Line.Weight = Sheets("NAME").Range("M" + CStr(NameRow)).Value
+                Selection.Border.LineStyle = xlLineStyleNone
+            
+        Else
+            numVal = 1
+            
+            ActiveChart.SeriesCollection.NewSeries
+            seriesCount = ActiveChart.SeriesCollection.Count
+            quote = CStr(numVal)
+            NameRow = numVal + 2
+            formulaNew = ",'" + CStr(numVal) + "'!" + startArr + ",'" + CStr(numVal) + "'!" + endArr + "," + CStr(seriesCount) + ")"
+            formulaTotal = "=SERIES(" + Chr(34) + quote + Chr(34) + formulaNew
+            ActiveChart.SeriesCollection(seriesCount).formula = formulaTotal
+            ActiveChart.SeriesCollection(seriesCount).Name = "='NAME'!$B$" + CStr(NameRow)
+            ActiveChart.SeriesCollection(seriesCount).Select
+                Selection.MarkerStyle = Sheets("NAME").Range("H" + CStr(NameRow)).Value
+                Selection.MarkerSize = Sheets("NAME").Range("G" + CStr(NameRow)).Value
+                Selection.MarkerBackgroundColor = RGB(Sheets("NAME").Range("D" + CStr(NameRow)).Value, Sheets("NAME").Range("E" + CStr(NameRow)).Value, Sheets("NAME").Range("F" + CStr(NameRow)).Value)
+                Selection.MarkerForegroundColor = RGB(Sheets("NAME").Range("J" + CStr(NameRow)).Value, Sheets("NAME").Range("K" + CStr(NameRow)).Value, Sheets("NAME").Range("L" + CStr(NameRow)).Value)
+                Selection.Format.Line.Weight = Sheets("NAME").Range("M" + CStr(NameRow)).Value
+                Selection.Border.LineStyle = xlLineStyleNone
+
+        End If
+        
+
+End Sub
+
+Sub ChangeStartRow()
+
+Dim x As Integer
+Dim seriesCount As Integer
+Dim formulaOrig
+Dim formulaSplit() As String
+Dim titleSplit() As String, titleSplit2() As String
+Dim columnSplit() As String, columnSplit2() As String
+Dim dollarSplit() As String, dollarSplit2() As String
+Dim rowSplit() As String, rowSplit2() As String
+Dim startRow As String
+Dim endRowUser As String
+On Error GoTo ErrHandle
+
+If ActiveChart.ChartType = xlBarStacked100 Or xl3DBarStacked Then
+
+    endRowUser = InputBox("Enter the start row")
+    
+    seriesCount = ActiveChart.SeriesCollection.Count
+    
+    For x = 1 To seriesCount
+        formulaOrig = ActiveChart.SeriesCollection(x).formula
+        formulaSplit = Split(formulaOrig, ",")
+'           This splits the forumla into an array, based on the number of commas.
+'           e.g. '=SERIES("So",'RRP 1'!$G$5:$G$14, 'RRP 1'!$D$5:$D$14, 2)
+'           turns into four parts in the array, ["So" || 'RRP 1'!$G$5:$G$14 || 'RRP 1'!$D$5:$D$14 || 2]
+        titleSplit = Split(formulaSplit(1), "!")
+'           Arrays start at 0
+'           so formulaSplit(1) = 'RRP 1'!$G$5:$G$14
+'           titleSplit = ['RRP 1' || $G$5:$G$14]
+        columnSplit = Split(titleSplit(1), ":")
+'           columnSplit = [$G$5 || $G$14]
+        dollarSplit = Split(columnSplit(0), "$")
+'           dollarSplit = [G || 5]
+
+        titleSplit2 = Split(formulaSplit(2), "!")
+'           titleSplit2 = ['RRP 1' || $D$5:$D$14]
+        columnSplit2 = Split(titleSplit2(1), ":")
+'           columnSplit2 = [$D$5 || $D$14]
+        dollarSplit2 = Split(columnSplit2(0), "$")
+'           dollarSplit2 = [D || 5]
+        
+         ActiveChart.SeriesCollection(x).formula = formulaSplit(0) + "," + titleSplit(0) + "!$" + dollarSplit(1) + "$" + endRowUser + ":" + columnSplit(1) + "," + titleSplit(0) + "!$" + dollarSplit2(1) + "$" + endRowUser + ":" + columnSplit2(1) + "," + formulaSplit(3)
+'            Now we put it all back together. Its long and annoying.
+     Next
+    Else: GoTo ErrHandle
+End If
+Exit Sub
+
+ErrHandle:
+    MsgBox ("You Broke It!  No really, select a Bar chart")
+    Exit Sub
+End Sub
+Sub ChangeEndRow()
+
+Dim x As Integer
+Dim seriesCount As Integer
+Dim formulaOrig
+Dim formulaSplit() As String
+Dim titleSplit() As String, titleSplit2() As String
+Dim columnSplit() As String, columnSplit2() As String
+Dim dollarSplit() As String, dollarSplit2() As String
+Dim rowSplit() As String, rowSplit2() As String
+Dim startRow As String
+Dim endRowUser As String
+On Error GoTo ErrHandle
+
+If ActiveChart.ChartType = xlBarStacked100 Or xl3DBarStacked Then
+
+    endRowUser = InputBox("Enter the end row")
+    
+    seriesCount = ActiveChart.SeriesCollection.Count
+    
+    For x = 1 To seriesCount
+        formulaOrig = ActiveChart.SeriesCollection(x).formula
+        formulaSplit = Split(formulaOrig, ",")
+'           This splits the forumla into an array, based on the number of commas.
+'           e.g. '=SERIES("So",'RRP 1'!$G$5:$G$14, 'RRP 1'!$D$5:$D$14, 2)
+'           turns into four parts in the array, ["So" || 'RRP 1'!$G$5:$G$14 || 'RRP 1'!$D$5:$D$14 || 2]
+        titleSplit = Split(formulaSplit(1), "!")
+'           Arrays start at 0
+'           so formulaSplit(1) = 'RRP 1'!$G$5:$G$14
+'           titleSplit = ['RRP 1' || $G$5:$G$14]
+        columnSplit = Split(titleSplit(1), ":")
+'           columnSplit = [$G$5 || $G$14]
+        dollarSplit = Split(columnSplit(1), "$")
+'           dollarSplit = [G || 14]
+
+        titleSplit2 = Split(formulaSplit(2), "!")
+'           titleSplit2 = ['RRP 1' || $D$5:$D$14]
+        columnSplit2 = Split(titleSplit2(1), ":")
+'           columnSplit2 = [$D$5 || $D$14]
+        dollarSplit2 = Split(columnSplit2(1), "$")
+'           dollarSplit2 = [D || 14]
+        
+        ActiveChart.SeriesCollection(x).formula = formulaSplit(0) + "," + titleSplit(0) + "!" + columnSplit(0) + ":$" + dollarSplit(1) + "$" + endRowUser + "," + titleSplit(0) + "!" + columnSplit2(0) + ":$" + dollarSplit2(1) + "$" + endRowUser + "," + formulaSplit(3)
+'           Now we put it all back together. Its long and annoying.
+     Next
+    Else: GoTo ErrHandle
+End If
+Exit Sub
+
+ErrHandle:
+    MsgBox ("You Broke It!  No really, select a Bar chart")
+    Exit Sub
+End Sub
+
+Sub UpdateKM()
+    'makes abs's the line symbol
+    MultiUpdate 8, 5, 1
+
+End Sub

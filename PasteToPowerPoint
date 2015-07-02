@@ -1,0 +1,53 @@
+Sub Report_Color()
+
+With ActiveChart.ChartArea.Format
+    .Fill.Visible = msoTrue
+    .Fill.ForeColor.RGB = RGB(0, 204, 255)
+    .Line.ForeColor.RGB = RGB(255, 204, 0)
+    .Line.Weight = 2
+End With
+  
+    
+End Sub
+
+Sub Panel_Color()
+
+With ActiveChart.ChartArea.Format
+    .Fill.Visible = msoTrue
+    .Fill.ForeColor.RGB = RGB(255, 255, 255)
+    .Line.ForeColor.RGB = RGB(0, 0, 0)
+    .Line.Weight = 0.75
+End With
+
+End Sub
+
+
+Sub Paste_PPT()
+
+
+If ActiveChart Is Nothing Then
+    MsgBox "Please select a chart and try again.", vbExclamation
+    
+Else
+    Set PPApp = GetObject(, "Powerpoint.Application")
+    Set PPPres = PPApp.ActivePresentation
+    Set PPSlide = PPPres.Slides(PPApp.ActiveWindow.Selection.SlideRange.SlideIndex)
+    
+    ActiveChart.CopyPicture
+    
+    PPSlide.Shapes.Paste.Select
+    
+    PPApp.ActiveWindow.Selection.ShapeRange.Height = 6.2 * 72
+    PPApp.ActiveWindow.Selection.ShapeRange.Align (msoAlignCenters), RelativeTo:=True
+    PPApp.ActiveWindow.Selection.ShapeRange.Top = 1.25 * 72
+    'PPApp.ActiveWindow.View.GotoSlide (PPApp.ActiveWindow.View.Slide.SlideIndex + 1)
+    
+    'ActiveSheet.Next.Select
+    
+    Set PPSlide = Nothing
+    Set PPPres = Nothing
+    Set PPApp = Nothing
+End If
+  
+
+End Sub

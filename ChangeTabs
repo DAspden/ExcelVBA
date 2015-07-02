@@ -1,0 +1,59 @@
+Dim WhatIsAName As String  'Holds Active Sheet Name for return when DataMine or WhoDat is pressed
+
+
+Sub Data() 'Selects Sheet Data, after storing current sheet in String'WhatIsAName'
+    If ActiveSheet.Name = "Data" Then
+        Sheets("Data").Activate
+        Exit Sub
+    Else
+        If ActiveSheet.Name = "NAME" Then
+            Sheets("Data").Activate
+            Exit Sub
+        Else
+            WhatIsAName = ActiveSheet.Name
+            Sheets("Data").Activate
+        End If
+    End If
+    
+End Sub
+
+Sub Nome() 'Selects sheet 'Name', after storing current sheet in String'WhatIsAName'
+    If ActiveSheet.Name = "NAME" Then
+        Sheets("Name").Activate
+        Exit Sub
+    Else
+        If ActiveSheet.Name = "Data" Then
+            Sheets("Name").Activate
+            Exit Sub
+        Else
+            WhatIsAName = ActiveSheet.Name
+            Sheets("Name").Activate
+        End If
+    End If
+End Sub
+
+Sub AnchorUp() 'Calls saved sheet.  Can use independent of first two buttons fand will take you back to wherever.
+On Error Resume Next
+    Sheets(WhatIsAName).Select
+ On Error GoTo 0
+End Sub
+
+Sub QuickLegend()
+'ActiveChart.HasLegend = False
+ActiveChart.HasLegend = True
+    With ActiveChart.Legend.Format.Shadow
+        .Visible = True
+        .Blur = 4
+        .Size = 100
+        .Transparency = 0.6
+        .OffsetX = 3
+        .OffsetY = 3
+    End With
+    With ActiveChart.Legend
+        .Font.Size = 14
+        .Font.Bold = True
+        .Interior.Color = RGB(255, 255, 255)
+        .Border.Color = RGB(0, 0, 0)
+        .Format.Line.Weight = 0.75
+    End With
+End Sub

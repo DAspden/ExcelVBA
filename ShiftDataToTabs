@@ -1,0 +1,41 @@
+Sub ShiftDataToTabs()
+'
+On Error GoTo ErrHandle
+
+
+    Dim TopRowUser As String
+    Dim BotRowUser As String
+    Dim CurrentFormation As String
+    Dim NumSheet As Integer
+    Dim DestRow
+    
+        NumSheet = 1
+        Set DestRow = Sheets(CStr(NumSheet)).Cells(9, 1)
+        TopRowUser = InputBox("Enter the Top Row of the Well")
+        BotRowUser = InputBox("Enter the Bottom Row of the Well")
+    
+    Sheets("Data").Activate
+
+    
+    CurrentFormation = ActiveSheet.Cells(TopRowUser, 6)
+    
+    For x = TopRowUser To BotRowUser
+        If CurrentFormation = ActiveSheet.Cells(x, 6) Then
+            Cells(x, 6).EntireRow.Copy
+            DestRow.PasteSpecial Paste:=xlValues
+           ' ActiveSheet.Range(Cells(x, 6)).EntireRow.Copy Destination:=DestRow
+                Set DestRow = DestRow.Offset(1, 0)
+        Else
+            CurrentFormation = ActiveSheet.Cells(x, 6)
+            NumSheet = NumSheet + 1
+            Set DestRow = Sheets(CStr(NumSheet)).Range("A9")
+                        Cells(x, 6).EntireRow.Copy
+                        DestRow.PasteSpecial Paste:=xlValues
+                Set DestRow = DestRow.Offset(1, 0)
+        End If
+    Next
+    
+ErrHandle:
+Exit Sub
+
+End Sub
